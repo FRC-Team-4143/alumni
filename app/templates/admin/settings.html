@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% block title %}Settings — Alumni{% endblock %}
+
+{% block content %}
+<h3 class="mb-3">Settings</h3>
+<p class="text-muted small">These are set in the app's <code>.env</code> and shown here read-only.</p>
+
+<div class="card" style="max-width:640px;">
+  <div class="card-body p-0">
+    <table class="table mb-0">
+      <tbody>
+        <tr><td>Automated updates</td><td>{% if settings.updates_enabled %}<span class="badge" style="background:#cc2200;">On</span>{% else %}<span class="badge bg-secondary">Off</span>{% endif %}</td></tr>
+        <tr><td>Timezone</td><td>{{ settings.timezone }}</td></tr>
+        <tr><td>Survey reminder window</td><td>{% if settings.survey_reminder_days %}{{ settings.survey_reminder_days }} day(s) after the survey DM{% else %}off{% endif %}</td></tr>
+        <tr><td>Update link lifetime</td><td>{% if settings.survey_link_ttl > 0 %}{{ (settings.survey_link_ttl / 86400) | round(1) }} day(s){% else %}never expires{% endif %}</td></tr>
+        <tr><td>Legion intake (POST /api/graduates)</td><td>{% if settings.legion_push_api_key %}configured{% else %}not configured{% endif %}</td></tr>
+        <tr><td>Legion (for admin sign-in)</td><td>{{ settings.legion_base_url or 'not configured' }}</td></tr>
+        <tr><td>Slack</td><td>{% if settings.slack_bot_token %}configured{% else %}not configured{% endif %}</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

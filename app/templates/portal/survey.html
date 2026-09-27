@@ -1,0 +1,50 @@
+{% extends "portal/base.html" %}
+{% block title %}Graduation Survey — Alumni{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">🎓 Congrats on graduating, {{ member.name.split(' ')[0] }}!</div>
+  <div class="card-body">
+    <p class="text-muted">We'd love to hear what's next for you, and whether you'd like to stay in touch for future updates &amp; special events.</p>
+
+    {% if error %}
+    <div class="alert alert-danger py-2">{{ error }}</div>
+    {% endif %}
+
+    {% set f = form if form is defined else survey %}
+    <form method="post" action="/survey">
+      <input type="hidden" name="token" value="{{ token }}">
+      <div class="mb-3">
+        <label class="form-label">College / trade school / employer</label>
+        <input name="destination" class="form-control" value="{{ f.destination or '' }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Major, or your job title</label>
+        <input name="field_of_study" class="form-control" value="{{ f.field_of_study or '' }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Stay in touch for future updates &amp; special events?</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stay_in_touch" id="stayYes" value="yes"
+                 {% if (form is defined and form.stay_in_touch == 'yes') or (form is not defined and survey.stay_in_touch) %}checked{% endif %}>
+          <label class="form-check-label" for="stayYes">Yes</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stay_in_touch" id="stayNo" value="no"
+                 {% if (form is defined and form.stay_in_touch == 'no') or (form is not defined and survey.stay_in_touch == false) %}checked{% endif %}>
+          <label class="form-check-label" for="stayNo">No</label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email <small class="text-muted">(only needed if you said Yes above)</small></label>
+        <input type="email" name="contact_email" class="form-control" value="{{ f.contact_email or '' }}">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% if survey.status.value == 'completed' %}
+    <p class="text-muted small mt-3 mb-0">You already submitted this survey — resubmitting updates your answers.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

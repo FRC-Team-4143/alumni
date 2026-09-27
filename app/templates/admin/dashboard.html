@@ -1,0 +1,39 @@
+{% extends "admin/base.html" %}
+{% block title %}Dashboard — Alumni{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Dashboard</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="stat-tile"><div class="stat-value">{{ total }}</div><div class="stat-label">Total Alumni</div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-tile"><div class="stat-value">{{ completed }}</div><div class="stat-label">Surveys Completed</div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-tile"><div class="stat-value">{{ pending }}</div><div class="stat-label">Surveys Pending</div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-tile"><div class="stat-value">{{ stay_in_touch }}</div><div class="stat-label">Want to Stay in Touch</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">By Class Year</div>
+  <div class="card-body p-0">
+    <table class="table mb-0">
+      <thead><tr><th>Class of</th><th>Count</th></tr></thead>
+      <tbody>
+      {% for year, count in by_year %}
+        <tr><td>{{ year }}</td><td>{{ count }}</td></tr>
+      {% else %}
+        <tr><td colspan="2" class="text-muted text-center py-4">No alumni yet — they'll appear here once Legion's Yearly Grade Increase pushes the first graduate.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<p class="mt-3"><a href="/admin/alumni" class="btn btn-outline-primary btn-sm"><i class="bi bi-mortarboard me-1"></i> Open the Alumni Directory</a></p>
+{% endblock %}

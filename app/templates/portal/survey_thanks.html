@@ -1,0 +1,12 @@
+{% extends "portal/base.html" %}
+{% block title %}Thanks! — Alumni{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body text-center py-5">
+    <i class="bi bi-check-circle" style="font-size:2.5rem; color:#6ee7a0;"></i>
+    <h4 class="mt-3">Thanks{% if member %}, {{ member.name.split(' ')[0] }}{% endif %}!</h4>
+    <p class="text-muted mb-0">Your answers are saved. Good luck out there — and congrats again.</p>
+  </div>
+</div>
+{% endblock %}
